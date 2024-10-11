@@ -119,6 +119,7 @@ public class Imagen {
         } catch (IOException e) { 
             e.printStackTrace(); 
         } 
+        
     } 
 
     /** 
