@@ -68,12 +68,12 @@ public class App {
             try {
                 System.out.println("Nombre del archivo en ../referencias/: ");
                 String ruta = "../referencias/" + br.readLine();
-                Calculador calculador = new Calculador(ruta);
+                Simulador simulador = new Simulador(ruta);
                 
                 System.out.println("Ingrese el número de marcos página: ");
                 int M = Integer.parseInt(br.readLine());
                 br.close();
-                calculador.simular(M);
+                simulador.simular(M);
             } catch (Exception e) {
                 e.printStackTrace();
             }

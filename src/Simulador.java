@@ -1,9 +1,9 @@
 import java.io.FileInputStream;
 import java.io.IOException;
 
-public class Calculador {
+public class Simulador {
 
-     public Calculador(String rutaReferencias) {
+     public Simulador(String rutaReferencias) {
           try {
                FileInputStream fis = new FileInputStream(rutaReferencias);
                //leer y guardar referencias
