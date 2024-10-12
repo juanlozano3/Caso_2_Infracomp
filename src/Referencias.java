@@ -40,8 +40,29 @@ public class Referencias {
           int pagina_imagen = 0;
           int desplazamiento_imagen = 0;
           // Escribir referencias
-          int pagina_vector = 0;
+          int pagina_vector = imagen.alto*imagen.ancho*3/P;
           int desplazamiento_vector = 0;
+          int fila = 0;
+          int columna = 0;
+          String color;
+          for (int i = 0; i < 16; i++) {
+               String linea = "";
+               if (i%3 == 0) color = "R";
+               else if (i%3 == 1) color = "G";
+               else color = "B";
+               linea += "Imagen["+fila+"]["+columna+"]."+color+","+pagina_imagen+","+desplazamiento_imagen+"R\n";
+               writer.write(linea);
+               columna++;
+               if (columna >= imagen.ancho) {
+                    columna = 0;
+                    fila++;
+               }
+               desplazamiento_imagen++;
+               if (desplazamiento_imagen >= P) {
+                    desplazamiento_imagen = 0;
+                    pagina_imagen ++;
+               }
+          }
           for (int i = 0; i < imagen.leerLongitud(); i++) {
                
                writer.write("\n");
