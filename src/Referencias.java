@@ -6,6 +6,7 @@ public class Referencias {
 
      int P, NF, NC, NR, NP;
      Imagen imagen;
+
      public Referencias(Imagen imagen, int P) {
           /*
            * P: Tamaño de página(en bytes)
@@ -40,7 +41,7 @@ public class Referencias {
           int pagina_imagen = 0;
           int desplazamiento_imagen = 0;
           // Escribir referencias
-          int pagina_vector = imagen.alto*imagen.ancho*3/P;
+          int pagina_vector = imagen.alto * imagen.ancho * 3 / P;
           int desplazamiento_vector = 0;
           int fila = 0;
           int columna = 0;
@@ -48,14 +49,19 @@ public class Referencias {
           String color;
           for (int i = 0; i < 16; i++) {
                String linea = "";
-               if (rgb == 0) color = "R";
-               else if (rgb == 1) color = "G";
-               else color = "B";
-               linea += "Imagen["+fila+"]["+columna+"]."+color+","+pagina_imagen+","+desplazamiento_imagen+",R\n";
+               if (rgb == 0)
+                    color = "R";
+               else if (rgb == 1)
+                    color = "G";
+               else
+                    color = "B";
+               linea += "Imagen[" + fila + "][" + columna + "]." + color + "," + pagina_imagen + ","
+                         + desplazamiento_imagen + ",R\n";
                writer.write(linea);
                rgb++;
-               if (rgb >= 2) {
+               if (rgb > 2) {
                     columna++;
+                    rgb = 0;
                }
                if (columna >= imagen.ancho) {
                     columna = 0;
@@ -64,29 +70,36 @@ public class Referencias {
                desplazamiento_imagen++;
                if (desplazamiento_imagen >= P) {
                     desplazamiento_imagen = 0;
-                    pagina_imagen ++;
+                    pagina_imagen++;
                }
           }
           int posicion_vector = 0;
           for (int i = 0; i < imagen.leerLongitud(); i++) {
-               //acceso inicial
-               String linea = "Mensaje["+posicion_vector+"],"+pagina_vector+","+desplazamiento_vector+",W\n";
+               // acceso inicial
+               String linea = "Mensaje[" + posicion_vector + "]," + pagina_vector + "," + desplazamiento_vector
+                         + ",W\n";
                writer.write(linea);
-               for (int j = 0; j <8; j++) {
+               for (int j = 0; j < 8; j++) {
                     linea = "";
                     // acceso a imagen (Lectura)
-                    if (j%3 == 0) color = "R";
-                    else if (j%3 == 1) color = "G";
-                    else color = "B";
-                    linea = "Imagen["+fila+"]["+columna+"]."+color+","+pagina_imagen+","+desplazamiento_imagen+",R\n";
+                    if (rgb == 0)
+                         color = "R";
+                    else if (rgb == 1)
+                         color = "G";
+                    else
+                         color = "B";
+                    linea = "Imagen[" + fila + "][" + columna + "]." + color + "," + pagina_imagen + ","
+                              + desplazamiento_imagen + ",R\n";
                     writer.write(linea);
                     linea = "";
                     // acceso a vector (escritura)
-                    linea = "Mensaje["+posicion_vector+"],"+pagina_vector+","+desplazamiento_vector+",W\n";
+                    linea = "Mensaje[" + posicion_vector + "]," + pagina_vector + "," + desplazamiento_vector + ",W\n";
                     writer.write(linea);
 
-                    if (color.equals("B")) {
+                    rgb++;
+                    if (rgb > 2) {
                          columna++;
+                         rgb = 0;
                     }
 
                     if (columna >= imagen.ancho) {
@@ -96,16 +109,16 @@ public class Referencias {
                     desplazamiento_imagen++;
                     if (desplazamiento_imagen >= P) {
                          desplazamiento_imagen = 0;
-                         pagina_imagen ++;
+                         pagina_imagen++;
                     }
                     desplazamiento_vector++;
                     if (desplazamiento_vector >= P) {
                          desplazamiento_vector = 0;
-                         pagina_vector ++;
+                         pagina_vector++;
                     }
 
                }
-               
+
                posicion_vector++;
           }
 
