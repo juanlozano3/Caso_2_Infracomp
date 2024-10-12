@@ -1,4 +1,5 @@
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -7,57 +8,93 @@ import java.util.Scanner;
 
 public class App {
     public static void main(String[] args) throws Exception {
-        // Crear un objeto Scanner para leer desde la consola
+
         Scanner scanner = new Scanner(System.in);
 
-        // Leer la ruta de archivo
         System.out.print("Digite el número de la opción que desea: ");
         System.out.print("1) Generación de las referencias. ");
         System.out.print("2) Calcular datos buscados. ");
         System.out.print("3) Esconder mensaje. ");
         System.out.print("4) Recuperar mensaje. ");
-
-        // Leer un número
         System.out.print("Ingrese un número: ");
         int opcion = scanner.nextInt();
         scanner.close();
         // Cerrar el scanner
 
-        //len(mensaje) = chars + cantLineas
-        if (opcion == 1) { // tamanio pagina y ruta imagen encriptada // archivo de referencias
-            //Generar referencias
+        // len(mensaje) = chars + cantLineas
+        // 1) Generación de las referencias.
+        if (opcion == 1) { 
+            // E: tamanio pagina y ruta imagen encriptada // S: archivo de referencias
+            // Generar referencias
             /*
-            P: Tamaño de página(en bytes)
-            NF y NC: Número de filas y columnas de la imagen
-            NR: Número de referencias (en el archivo)
-            NP: Número de páginas virtuales (las páginas necesarias para almacenar la matriz imagen y el vector resultante) */
+             * P: Tamaño de página(en bytes)
+             * NF y NC: Número de filas y columnas de la imagen
+             * NR: Número de referencias (en el archivo)
+             * NP: Número de páginas virtuales (las páginas necesarias para almacenar la
+             * matriz imagen y el vector resultante)
+             */
             /*
-            P: parametro
-            NF y NC: sacados de imagen
-            NR: 16 + 17*lenMensaje
-            NP: ceiling( (anch*alto*3 + lenMensaje) / P )
-            */
-        }
-        else if (opcion == 2) { // marcos de pagina y archivo referencias // misses, hits y tiempos (normal, todo RAM, todo SWAP)
+             * P: parametro
+             * NF y NC: sacados de imagen
+             * NR: 16 + 17*lenMensaje
+             * NP: ceiling( (anch*alto*3 + lenMensaje) / P )
+             */
+
+            InputStreamReader isr = new InputStreamReader(System.in);
+            BufferedReader br = new BufferedReader(isr);
+            try {
+                System.out.println("Nombre del archivo en ../imagenes/procesadas/: ");
+                String ruta = "../imagenes/procesadas/" + br.readLine();
+                Imagen imagen = new Imagen(ruta);
+                
+                System.out.println("Ingrese el tamaño en bytes de las páginas: ");
+                int P = Integer.parseInt(br.readLine());
+                br.close();
+                Referencias referencias = new Referencias(imagen, P);
+                referencias.generarReferencias();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        // 2) Calcular datos buscados.
+        } else if (opcion == 2) { 
+            // E: marcos de pagina y archivo referencias // S: misses, hits y tiempos (normal, todo RAM, todo SWAP)
+            // Calcular datos
             // 1 seg = 100 misses o 40,000,000 hits
             // 1 ms = 1,000,000 ns
             // 1 hit = 25 ns, 1 miss = 10,000,000 ns
             // 1 miss = 400,000 hits
-            //Calcular datos
-        }
-        else if (opcion == 3) {
             InputStreamReader isr = new InputStreamReader(System.in);
             BufferedReader br = new BufferedReader(isr);
             try {
-                System.out.println("Nombre del archivo con la imagen a procesar: ");
-                String ruta = br.readLine();
+                System.out.println("Nombre del archivo en ../referencias/: ");
+                String ruta = "../referencias/" + br.readLine();
+                Calculador calculador = new Calculador(ruta);
+                
+                System.out.println("Ingrese el número de marcos página: ");
+                int M = Integer.parseInt(br.readLine());
+                br.close();
+                calculador.simular(M);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        // 3) Esconder mensaje.
+        } else if (opcion == 3) {
+            InputStreamReader isr = new InputStreamReader(System.in);
+            BufferedReader br = new BufferedReader(isr);
+            try {
+                System.out.println("Nombre del archivo con la imagen en ../imagenes/originales/: ");
+                String ruta = "../imagenes/originales/" + br.readLine();
                 Imagen imagen = new Imagen(ruta);
-                System.out.println("Nombre del archivo con el mensaje a esconder: ");
-                String ruta2 = br.readLine();
+
+                System.out.println("Nombre del archivo con el mensaje a esconder en ../mensajes/esconder/: ");
+                String ruta2 = "../mensajes/esconder/" + br.readLine();
                 char[] mensaje = leerArchivoTexto(ruta2);
                 int longitud = mensaje.length;
+
                 imagen.esconder(mensaje, longitud);
-                imagen.escribirImagen("salida" + ruta);
+                String rutaSalida = "../imagenes/procesadas/salida_" + ruta.substring(ruta.lastIndexOf("/") + 1);
+                imagen.escribirImagen(rutaSalida);
+                System.out.println("Imagen modificada guardada en: " + rutaSalida);
                 // Ud debería poder abrir el bitmap de salida en un editor de imágenes y no debe
                 // percibir
                 // ningún cambio en la imagen, pese a tener modificaciones por el mensaje que
@@ -66,15 +103,15 @@ public class App {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-
+        // 4) Recuperar mensaje.
         } else if (opcion == 4) {
             InputStreamReader isr = new InputStreamReader(System.in);
             BufferedReader br = new BufferedReader(isr);
             try {
-                System.out.println("Nombre de la imagen con el mensaje escondido: ");
-                String ruta = br.readLine();
-                System.out.println("Nombre del archivo para almacenar el mensaje recuperado: ");
-                String salida = br.readLine();
+                System.out.println("Nombre de la imagen con el mensaje escondido en ../imagenes/procesadas/: ");
+                String ruta = "../imagenes/procesadas/" + br.readLine();
+                System.out.println("Nombre del archivo para almacenar el mensaje recuperado en ../mensajes/recuperados/: ");
+                String salida = "../mensajes/recuperados/" + br.readLine();
                 Imagen imagen = new Imagen(ruta);
                 int longitud = imagen.leerLongitud();
                 char[] mensaje = new char[longitud];
