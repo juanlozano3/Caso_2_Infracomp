@@ -63,9 +63,43 @@ public class Referencias {
                     pagina_imagen ++;
                }
           }
+          int posicion_vector = 0;
           for (int i = 0; i < imagen.leerLongitud(); i++) {
+               //acceso inicial
+               String linea = "Mensaje["+posicion_vector+"],"+pagina_vector+","+desplazamiento_vector+"W\n";
+               writer.write(linea);
+               for (int j = 0; j <8; j++) {
+                    linea = "";
+                    // acceso a imagen (Lectura)
+                    if (j%3 == 0) color = "R";
+                    else if (j%3 == 1) color = "G";
+                    else color = "B";
+                    linea = "Imagen["+fila+"]["+columna+"]."+color+","+pagina_imagen+","+desplazamiento_imagen+"R\n";
+                    writer.write(linea);
+                    linea = "";
+                    // acceso a vector (escritura)
+                    linea = "Mensaje["+posicion_vector+"],"+pagina_vector+","+desplazamiento_vector+"W\n";
+                    writer.write(linea);
+
+                    columna++;
+                    if (columna >= imagen.ancho) {
+                         columna = 0;
+                         fila++;
+                    }
+                    desplazamiento_imagen++;
+                    if (desplazamiento_imagen >= P) {
+                         desplazamiento_imagen = 0;
+                         pagina_imagen ++;
+                    }
+                    desplazamiento_vector++;
+                    if (desplazamiento_vector >= P) {
+                         desplazamiento_vector = 0;
+                         pagina_vector ++;
+                    }
+
+               }
                
-               writer.write("\n");
+               posicion_vector++;
           }
 
           writer.close();
