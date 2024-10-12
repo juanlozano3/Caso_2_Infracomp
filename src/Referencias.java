@@ -44,15 +44,17 @@ public class Referencias {
           int desplazamiento_vector = 0;
           int fila = 0;
           int columna = 0;
+          int rgb = 0;
           String color;
           for (int i = 0; i < 16; i++) {
                String linea = "";
-               if (i%3 == 0) color = "R";
-               else if (i%3 == 1) color = "G";
+               if (rgb == 0) color = "R";
+               else if (rgb == 1) color = "G";
                else color = "B";
                linea += "Imagen["+fila+"]["+columna+"]."+color+","+pagina_imagen+","+desplazamiento_imagen+",R\n";
                writer.write(linea);
-               if (color.equals("B")) {
+               rgb++;
+               if (rgb >= 2) {
                     columna++;
                }
                if (columna >= imagen.ancho) {
