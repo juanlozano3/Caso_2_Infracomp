@@ -7,6 +7,19 @@ public class Referencias {
      int P, NF, NC, NR, NP;
 
      public Referencias(Imagen imagen, int P) {
+          /*
+           * P: Tamaño de página(en bytes)
+           * NF y NC: Número de filas y columnas de la imagen
+           * NR: Número de referencias (en el archivo)
+           * NP: Número de páginas virtuales (las páginas necesarias para almacenar la
+           * matriz imagen y el vector resultante)
+           */
+          /*
+           * P: parametro
+           * NF y NC: sacados de imagen
+           * NR: 16 + 17*lenMensaje
+           * NP: ceiling( (anch*alto*3 + lenMensaje) / P )
+           */
           int lenMensaje = imagen.leerLongitud();
           this.P = P;
           this.NF = imagen.alto;

@@ -24,22 +24,8 @@ public class App {
         // len(mensaje) = chars + cantLineas
         // 1) Generación de las referencias.
         if (opcion == 1) { 
-            // E: tamanio pagina y ruta imagen encriptada // S: archivo de referencias
-            // Generar referencias
-            /*
-             * P: Tamaño de página(en bytes)
-             * NF y NC: Número de filas y columnas de la imagen
-             * NR: Número de referencias (en el archivo)
-             * NP: Número de páginas virtuales (las páginas necesarias para almacenar la
-             * matriz imagen y el vector resultante)
-             */
-            /*
-             * P: parametro
-             * NF y NC: sacados de imagen
-             * NR: 16 + 17*lenMensaje
-             * NP: ceiling( (anch*alto*3 + lenMensaje) / P )
-             */
-
+            // E: tamanio pagina y ruta imagen encriptada 
+            // S: archivo de referencias
             InputStreamReader isr = new InputStreamReader(System.in);
             BufferedReader br = new BufferedReader(isr);
             try {
@@ -50,19 +36,17 @@ public class App {
                 System.out.println("Ingrese el tamaño en bytes de las páginas: ");
                 int P = Integer.parseInt(br.readLine());
                 br.close();
+
                 Referencias referencias = new Referencias(imagen, P);
                 referencias.generarReferencias();
             } catch (Exception e) {
                 e.printStackTrace();
             }
+        
         // 2) Calcular datos buscados.
         } else if (opcion == 2) { 
-            // E: marcos de pagina y archivo referencias // S: misses, hits y tiempos (normal, todo RAM, todo SWAP)
-            // Calcular datos
-            // 1 seg = 100 misses o 40,000,000 hits
-            // 1 ms = 1,000,000 ns
-            // 1 hit = 25 ns, 1 miss = 10,000,000 ns
-            // 1 miss = 400,000 hits
+            // E: marcos de pagina y archivo referencias 
+            // S: misses, hits y tiempos (normal, todo RAM, todo SWAP)
             InputStreamReader isr = new InputStreamReader(System.in);
             BufferedReader br = new BufferedReader(isr);
             try {
@@ -73,10 +57,12 @@ public class App {
                 System.out.println("Ingrese el número de marcos página: ");
                 int M = Integer.parseInt(br.readLine());
                 br.close();
+
                 simulador.simular(M);
             } catch (Exception e) {
                 e.printStackTrace();
             }
+
         // 3) Esconder mensaje.
         } else if (opcion == 3) {
             InputStreamReader isr = new InputStreamReader(System.in);
@@ -103,6 +89,7 @@ public class App {
             } catch (Exception e) {
                 e.printStackTrace();
             }
+        
         // 4) Recuperar mensaje.
         } else if (opcion == 4) {
             InputStreamReader isr = new InputStreamReader(System.in);
@@ -112,10 +99,13 @@ public class App {
                 String ruta = "../imagenes/procesadas/" + br.readLine();
                 System.out.println("Nombre del archivo para almacenar el mensaje recuperado en ../mensajes/recuperados/: ");
                 String salida = "../mensajes/recuperados/" + br.readLine();
+
                 Imagen imagen = new Imagen(ruta);
                 int longitud = imagen.leerLongitud();
                 char[] mensaje = new char[longitud];
+
                 imagen.recuperar(mensaje, longitud);
+
                 FileWriter writer = new FileWriter(salida);
                 writer.write(mensaje);
                 writer.close();
@@ -131,7 +121,6 @@ public class App {
 
     public static char[] leerArchivoTexto(String input) {
         StringBuilder contenido = new StringBuilder();
-
         try {
             FileInputStream fis = new FileInputStream(input);
             int byteLeido;
