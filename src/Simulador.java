@@ -16,6 +16,7 @@ public class Simulador {
 
      public void simular(int M) {
           // Usar Threads
+          // S: misses, hits y tiempos (normal, todo RAM, todo SWAP)
           // 1 seg = 100 misses o 40,000,000 hits
           // 1 ms = 1,000,000 ns
           // 1 hit = 25 ns, 1 miss = 10,000,000 ns

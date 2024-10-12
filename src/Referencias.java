@@ -5,7 +5,7 @@ import java.io.IOException;
 public class Referencias {
 
      int P, NF, NC, NR, NP;
-
+     Imagen imagen;
      public Referencias(Imagen imagen, int P) {
           /*
            * P: Tamaño de página(en bytes)
@@ -26,6 +26,7 @@ public class Referencias {
           this.NC = imagen.ancho;
           this.NR = 16 + (17 * lenMensaje);
           this.NP = (int) Math.ceil(((NF * NC * 3) + lenMensaje) / P);
+          this.imagen = imagen;
      }
 
      public void generarReferencias() throws IOException {
@@ -36,8 +37,15 @@ public class Referencias {
           writer.write("NC=" + NC + "\n");
           writer.write("NR=" + NR + "\n");
           writer.write("NP=" + NP + "\n");
-
+          int pagina_imagen = 0;
+          int desplazamiento_imagen = 0;
           // Escribir referencias
+          int pagina_vector = 0;
+          int desplazamiento_vector = 0;
+          for (int i = 0; i < imagen.leerLongitud(); i++) {
+               
+               writer.write("\n");
+          }
 
           writer.close();
           System.out.println("Archivo de lista de referencias generado en: " + rutaSalida);
