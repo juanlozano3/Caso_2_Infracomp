@@ -152,5 +152,5 @@ public class Imagen {
                     (char) (cadena[posCaracter] | (imagen[fila][col][(numBytes % bytesFila) % 3] & 1) << i); 
             }    
         } 
-    } 
+    }
 }

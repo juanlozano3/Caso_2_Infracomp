@@ -11,7 +11,7 @@ public class App {
         Scanner scanner = new Scanner(System.in);
 
         // Leer la ruta de archivo
-        System.out.print("Digite la opción que desea: ");
+        System.out.print("Digite el número de la opción que desea: ");
         System.out.print("1) Generación de las referencias. ");
         System.out.print("2) Calcular datos buscados. ");
         System.out.print("3) Esconder mensaje. ");
@@ -22,10 +22,27 @@ public class App {
         int opcion = scanner.nextInt();
         scanner.close();
         // Cerrar el scanner
-        if (opcion == 1) {
+
+        //len(mensaje) = chars + cantLineas
+        if (opcion == 1) { // tamanio pagina y ruta imagen encriptada // archivo de referencias
             //Generar referencias
+            /*
+            P: Tamaño de página(en bytes)
+            NF y NC: Número de filas y columnas de la imagen
+            NR: Número de referencias (en el archivo)
+            NP: Número de páginas virtuales (las páginas necesarias para almacenar la matriz imagen y el vector resultante) */
+            /*
+            P: parametro
+            NF y NC: sacados de imagen
+            NR: 16 + 17*lenMensaje
+            NP: ceiling( (anch*alto*3 + lenMensaje) / P )
+            */
         }
-        else if (opcion == 2) {
+        else if (opcion == 2) { // marcos de pagina y archivo referencias // misses, hits y tiempos (normal, todo RAM, todo SWAP)
+            // 1 seg = 100 misses o 40,000,000 hits
+            // 1 ms = 1,000,000 ns
+            // 1 hit = 25 ns, 1 miss = 10,000,000 ns
+            // 1 miss = 400,000 hits
             //Calcular datos
         }
         else if (opcion == 3) {
