@@ -1,5 +1,4 @@
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -18,45 +17,37 @@ public class App {
         System.out.print("4) Recuperar mensaje. ");
         System.out.print("Ingrese un número: ");
         int opcion = scanner.nextInt();
-        scanner.close();
-        // Cerrar el scanner
+        scanner.nextLine(); // Consumir la nueva línea después de leer el número
 
         // len(mensaje) = chars + cantLineas
         // 1) Generación de las referencias.
         if (opcion == 1) { 
             // E: tamanio pagina y ruta imagen encriptada 
             // S: archivo de referencias
-            InputStreamReader isr = new InputStreamReader(System.in);
-            BufferedReader br = new BufferedReader(isr);
             try {
-                System.out.println("Nombre del archivo en ../imagenes/procesadas/: ");
-                String ruta = "../imagenes/procesadas/" + br.readLine();
+                System.out.println("Nombre del archivo en imagenes/procesadas/: ");
+                String ruta = "imagenes/procesadas/" + scanner.nextLine();
                 Imagen imagen = new Imagen(ruta);
                 
                 System.out.println("Ingrese el tamaño en bytes de las páginas: ");
-                int P = Integer.parseInt(br.readLine());
-                br.close();
+                int P = Integer.parseInt(scanner.nextLine());
 
                 Referencias referencias = new Referencias(imagen, P);
                 referencias.generarReferencias();
             } catch (Exception e) {
                 e.printStackTrace();
             }
+        }
         
         // 2) Calcular datos buscados.
-        } else if (opcion == 2) { 
-            // E: marcos de pagina y archivo referencias 
-            // S: misses, hits y tiempos (normal, todo RAM, todo SWAP)
-            InputStreamReader isr = new InputStreamReader(System.in);
-            BufferedReader br = new BufferedReader(isr);
+        else if (opcion == 2) { 
             try {
-                System.out.println("Nombre del archivo en ../referencias/: ");
-                String ruta = "../referencias/" + br.readLine();
+                System.out.println("Nombre del archivo en referencias/: ");
+                String ruta = "referencias/" + scanner.nextLine();
                 Simulador simulador = new Simulador(ruta);
                 
                 System.out.println("Ingrese el número de marcos página: ");
-                int M = Integer.parseInt(br.readLine());
-                br.close();
+                int M = Integer.parseInt(scanner.nextLine());
 
                 simulador.simular(M);
             } catch (Exception e) {
@@ -65,40 +56,31 @@ public class App {
 
         // 3) Esconder mensaje.
         } else if (opcion == 3) {
-            InputStreamReader isr = new InputStreamReader(System.in);
-            BufferedReader br = new BufferedReader(isr);
             try {
-                System.out.println("Nombre del archivo con la imagen en ../imagenes/originales/: ");
-                String ruta = "../imagenes/originales/" + br.readLine();
+                System.out.println("Nombre del archivo con la imagen en imagenes/originales/: ");
+                String ruta = "imagenes/originales/" + scanner.nextLine();
                 Imagen imagen = new Imagen(ruta);
 
-                System.out.println("Nombre del archivo con el mensaje a esconder en ../mensajes/esconder/: ");
-                String ruta2 = "../mensajes/esconder/" + br.readLine();
+                System.out.println("Nombre del archivo con el mensaje a esconder en mensajes/esconder/: ");
+                String ruta2 = "mensajes/esconder/" + scanner.nextLine();
                 char[] mensaje = leerArchivoTexto(ruta2);
                 int longitud = mensaje.length;
 
                 imagen.esconder(mensaje, longitud);
-                String rutaSalida = "../imagenes/procesadas/salida_" + ruta.substring(ruta.lastIndexOf("/") + 1);
+                String rutaSalida = "imagenes/procesadas/salida_" + ruta.substring(ruta.lastIndexOf("/") + 1);
                 imagen.escribirImagen(rutaSalida);
                 System.out.println("Imagen modificada guardada en: " + rutaSalida);
-                // Ud debería poder abrir el bitmap de salida en un editor de imágenes y no debe
-                // percibir
-                // ningún cambio en la imagen, pese a tener modificaciones por el mensaje que
-                // esconde
-                br.close();
             } catch (Exception e) {
                 e.printStackTrace();
             }
         
         // 4) Recuperar mensaje.
         } else if (opcion == 4) {
-            InputStreamReader isr = new InputStreamReader(System.in);
-            BufferedReader br = new BufferedReader(isr);
             try {
-                System.out.println("Nombre de la imagen con el mensaje escondido en ../imagenes/procesadas/: ");
-                String ruta = "../imagenes/procesadas/" + br.readLine();
-                System.out.println("Nombre del archivo para almacenar el mensaje recuperado en ../mensajes/recuperados/: ");
-                String salida = "../mensajes/recuperados/" + br.readLine();
+                System.out.println("Nombre de la imagen con el mensaje escondido en imagenes/procesadas/: ");
+                String ruta = "imagenes/procesadas/" + scanner.nextLine();
+                System.out.println("Nombre del archivo para almacenar el mensaje recuperado en mensajes/recuperados/: ");
+                String salida = "mensajes/recuperados/" + scanner.nextLine();
 
                 Imagen imagen = new Imagen(ruta);
                 int longitud = imagen.leerLongitud();
@@ -117,6 +99,7 @@ public class App {
             System.out.println("Ingrese una opción válida");
         }
 
+        // No cerramos `System.in` o `scanner` ya que se utiliza durante toda la ejecución.
     }
 
     public static char[] leerArchivoTexto(String input) {
@@ -133,5 +116,4 @@ public class App {
         }
         return contenido.toString().toCharArray();
     }
-
 }

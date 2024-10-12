@@ -30,7 +30,7 @@ public class Referencias {
      }
 
      public void generarReferencias() throws IOException {
-          String rutaSalida = "../referencias/referencias.txt";
+          String rutaSalida = "referencias/referencias.txt";
           BufferedWriter writer = new BufferedWriter(new FileWriter(rutaSalida));
           writer.write("P=" + P + "\n");
           writer.write("NF=" + NF + "\n");
@@ -50,9 +50,11 @@ public class Referencias {
                if (i%3 == 0) color = "R";
                else if (i%3 == 1) color = "G";
                else color = "B";
-               linea += "Imagen["+fila+"]["+columna+"]."+color+","+pagina_imagen+","+desplazamiento_imagen+"R\n";
+               linea += "Imagen["+fila+"]["+columna+"]."+color+","+pagina_imagen+","+desplazamiento_imagen+",R\n";
                writer.write(linea);
-               columna++;
+               if (color.equals("B")) {
+                    columna++;
+               }
                if (columna >= imagen.ancho) {
                     columna = 0;
                     fila++;
@@ -66,7 +68,7 @@ public class Referencias {
           int posicion_vector = 0;
           for (int i = 0; i < imagen.leerLongitud(); i++) {
                //acceso inicial
-               String linea = "Mensaje["+posicion_vector+"],"+pagina_vector+","+desplazamiento_vector+"W\n";
+               String linea = "Mensaje["+posicion_vector+"],"+pagina_vector+","+desplazamiento_vector+",W\n";
                writer.write(linea);
                for (int j = 0; j <8; j++) {
                     linea = "";
@@ -74,14 +76,17 @@ public class Referencias {
                     if (j%3 == 0) color = "R";
                     else if (j%3 == 1) color = "G";
                     else color = "B";
-                    linea = "Imagen["+fila+"]["+columna+"]."+color+","+pagina_imagen+","+desplazamiento_imagen+"R\n";
+                    linea = "Imagen["+fila+"]["+columna+"]."+color+","+pagina_imagen+","+desplazamiento_imagen+",R\n";
                     writer.write(linea);
                     linea = "";
                     // acceso a vector (escritura)
-                    linea = "Mensaje["+posicion_vector+"],"+pagina_vector+","+desplazamiento_vector+"W\n";
+                    linea = "Mensaje["+posicion_vector+"],"+pagina_vector+","+desplazamiento_vector+",W\n";
                     writer.write(linea);
 
-                    columna++;
+                    if (color.equals("B")) {
+                         columna++;
+                    }
+
                     if (columna >= imagen.ancho) {
                          columna = 0;
                          fila++;
