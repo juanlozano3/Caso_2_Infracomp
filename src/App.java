@@ -21,14 +21,14 @@ public class App {
 
         // len(mensaje) = chars + cantLineas
         // 1) Generación de las referencias.
-        if (opcion == 1) { 
-            // E: tamanio pagina y ruta imagen encriptada 
+        if (opcion == 1) {
+            // E: tamanio pagina y ruta imagen encriptada
             // S: archivo de referencias
             try {
                 System.out.println("Nombre del archivo en imagenes/procesadas/: ");
                 String ruta = "imagenes/procesadas/" + scanner.nextLine();
                 Imagen imagen = new Imagen(ruta);
-                
+
                 System.out.println("Ingrese el tamaño en bytes de las páginas: ");
                 int P = Integer.parseInt(scanner.nextLine());
 
@@ -38,24 +38,22 @@ public class App {
                 e.printStackTrace();
             }
         }
-        
+
         // 2) Calcular datos buscados.
-        else if (opcion == 2) { 
+        else if (opcion == 2) {
             try {
                 System.out.println("Nombre del archivo en referencias/: ");
                 String ruta = "referencias/" + scanner.nextLine();
                 System.out.println("Ingrese el número de marcos página: ");
                 int M = Integer.parseInt(scanner.nextLine());
                 Simulador simulador = new Simulador(ruta, M);
-                
-                
 
                 simulador.simular();
             } catch (Exception e) {
                 e.printStackTrace();
             }
 
-        // 3) Esconder mensaje.
+            // 3) Esconder mensaje.
         } else if (opcion == 3) {
             try {
                 System.out.println("Nombre del archivo con la imagen en imagenes/originales/: ");
@@ -74,13 +72,14 @@ public class App {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-        
-        // 4) Recuperar mensaje.
+
+            // 4) Recuperar mensaje.
         } else if (opcion == 4) {
             try {
                 System.out.println("Nombre de la imagen con el mensaje escondido en imagenes/procesadas/: ");
                 String ruta = "imagenes/procesadas/" + scanner.nextLine();
-                System.out.println("Nombre del archivo para almacenar el mensaje recuperado en mensajes/recuperados/: ");
+                System.out
+                        .println("Nombre del archivo para almacenar el mensaje recuperado en mensajes/recuperados/: ");
                 String salida = "mensajes/recuperados/" + scanner.nextLine();
 
                 Imagen imagen = new Imagen(ruta);
@@ -100,7 +99,8 @@ public class App {
             System.out.println("Ingrese una opción válida");
         }
 
-        // No cerramos `System.in` o `scanner` ya que se utiliza durante toda la ejecución.
+        // No cerramos `System.in` o `scanner` ya que se utiliza durante toda la
+        // ejecución.
     }
 
     public static char[] leerArchivoTexto(String input) {
