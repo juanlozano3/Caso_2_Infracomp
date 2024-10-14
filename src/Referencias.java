@@ -41,8 +41,9 @@ public class Referencias {
           int pagina_imagen = 0;
           int desplazamiento_imagen = 0;
           // Escribir referencias
-          int pagina_vector = imagen.alto * imagen.ancho * 3 / P;
-          int desplazamiento_vector = 0;
+          int bytes_imagen = NF * NC * 3;    
+          int pagina_vector = bytes_imagen / P;
+          int desplazamiento_vector = bytes_imagen % P;
           int fila = 0;
           int columna = 0;
           int rgb = 0;

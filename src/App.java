@@ -44,12 +44,13 @@ public class App {
             try {
                 System.out.println("Nombre del archivo en referencias/: ");
                 String ruta = "referencias/" + scanner.nextLine();
-                Simulador simulador = new Simulador(ruta);
-                
                 System.out.println("Ingrese el número de marcos página: ");
                 int M = Integer.parseInt(scanner.nextLine());
+                Simulador simulador = new Simulador(ruta, M);
+                
+                
 
-                simulador.simular(M);
+                simulador.simular();
             } catch (Exception e) {
                 e.printStackTrace();
             }
