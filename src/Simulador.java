@@ -8,8 +8,9 @@ import java.util.ArrayList;
 public class Simulador {
 
     private HashMap<int[], int[]> tabla_paginas = new HashMap<>();
-    private int[][][] ram;
+    private RAM ram;
     private ArrayList<String[]> referencias = new ArrayList<>();
+    private int hits, misses;
 
     public Simulador(String rutaReferencias, int marcosPagina) {
         tabla_paginas = new HashMap<>();
@@ -47,7 +48,7 @@ public class Simulador {
 
         // estructura de marcos de página
         // lista de listas de arreglos de tamaño 2
-        ram = new int[marcosPagina][P][2];
+        this.ram = new RAM(marcosPagina);
     }
 
     // Usar Threads
@@ -69,46 +70,40 @@ public class Simulador {
                     int pagina = Integer.parseInt(referencia[1].trim());
                     int desplazamiento = Integer.parseInt(referencia[2].trim());
                     int[] clave = new int[] { pagina, desplazamiento }; // Clave del HashMap
-                    
-                    //actualizar el bit (R) en la tabla pagina
-                    // R--M
-                    //esto es sincronizado
-                    tabla_paginas.get(clave)[0] = 1;
 
+                    // actualizar el bit (R) en la tabla pagina
+                    // R--M
+                    // esto es sincronizado
+                    tabla_paginas.get(clave)[0] = 1;
+                    if (referencia[0].trim() == "Mensaje")
+                        tabla_paginas.get(clave)[1] = 1;
 
                     // Esto no es sincornizado
-    
+                    cargarEnRAM(clave);
 
+                    try {
+                        // Simulación del tiempo de procesamiento
+                        Thread.sleep(1);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
 
                 }
 
             }
         });
 
-        // Thread 2 - Realiza algún tipo de monitoreo o actualización adicional (p. ej.,
-        // envejecimiento de las páginas)
         Thread thread2 = new Thread(new Runnable() {
             @Override
             public void run() {
-                // Simulación de alguna operación periódica sobre la RAM o referencias
-                while (true) {
-                    synchronized (ram) {
-                        // Realizar alguna operación periódica o de mantenimiento
-                        System.out.println("Thread 2 realizando operación de mantenimiento.");
-                    }
-                    try {
-                        // Simulación del tiempo de procesamiento
-                        Thread.sleep(2); // Simular un tiempo de procesamiento (ejemplo)
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                }
+                // Poner en 0,0 todos los valores de todas las referencias de la tabla_paginas
             }
         });
 
         // Iniciar los threads
         thread1.start();
         thread2.start();
+        // Join para retornar total de hit y misses
     }
 
     public void imprimirPrimeras17Claves() {
@@ -122,5 +117,40 @@ public class Simulador {
             }
         }
         System.out.println(tabla_paginas.size());
+    }
+
+    public void cargarEnRAM(int[] clave) {
+        boolean hit = false;
+        for (Pagina pagina : ram.getMarcos()) {
+            if (pagina.getId() == clave[0]) {
+                hit = true;
+                hits++;
+                pagina.addDireccion(clave);
+            }
+        }
+        if (!hit) {
+            misses++;
+            int idPaginaEliminada = LRU();
+            for (Pagina pagina : ram.getMarcos()) {
+                if (pagina.getId() == idPaginaEliminada) {
+                    Pagina nuevaPagina = new Pagina(clave);
+                    pagina = nuevaPagina;
+                }
+            }
+        }
+    }
+
+    // Estor etorna el ID de la pagina que se va a sacar de RAM para meter la nueva
+    public int LRU() {
+        int idLRU = -1;
+        int puntajeLRU = Integer.MAX_VALUE;
+        for (Pagina pagina : ram.getMarcos()) {
+            int puntaje = pagina.getPuntaje(tabla_paginas);
+            if (puntaje < puntajeLRU) {
+                puntajeLRU = puntaje;
+                idLRU = pagina.getId();
+            }
+        }
+        return idLRU;
     }
 }
