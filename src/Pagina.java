@@ -10,13 +10,16 @@ public class Pagina {
           this.direcciones.add(clave);
      }
 
-     public int getPuntaje(HashMap<int[], int[]> tabla_paginas){
+     public int getPuntaje(HashMap<int[], int[]> tabla_paginas) {
           int puntaje = 0;
           for (int[] direccion : direcciones) {
                int[] valor_R_M = tabla_paginas.get(direccion);
-               if (valor_R_M[0] == 0 && valor_R_M[1] == 1) puntaje++;
-               else if (valor_R_M[0] == 1 && valor_R_M[1] == 0) puntaje+=2;
-               else if (valor_R_M[0] == 1 && valor_R_M[1] == 1) puntaje+=3;
+               if (valor_R_M[0] == 0 && valor_R_M[1] == 1)
+                    puntaje++;
+               else if (valor_R_M[0] == 1 && valor_R_M[1] == 0)
+                    puntaje += 2;
+               else if (valor_R_M[0] == 1 && valor_R_M[1] == 1)
+                    puntaje += 3;
           }
           return puntaje;
      }
@@ -41,5 +44,4 @@ public class Pagina {
           this.direcciones = direcciones;
      }
 
-     
 }

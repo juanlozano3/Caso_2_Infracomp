@@ -51,7 +51,7 @@ public class RAM {
      public void reiniciarBits() {
           for (Pagina pagina : marcos) {
                ArrayList<int[]> claves = pagina.getDirecciones();
-               for(int[] clave : claves) {
+               for (int[] clave : claves) {
                     tabla_paginas.get(clave)[0] = 0;
                     tabla_paginas.get(clave)[1] = 0;
                }
