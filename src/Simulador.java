@@ -55,12 +55,9 @@ public class Simulador {
                     // R--M
                     // esto es sincronizado
                     cargarEnRAM(clave);
-
                     ram.actualizarBit("R", clave);
                     if (referencia[0].trim() == "Mensaje")
                         ram.actualizarBit("M", clave);
-
-                    // Esto no es sincornizado
 
                     try {
                         // Simulación del tiempo de procesamiento
@@ -78,6 +75,13 @@ public class Simulador {
             @Override
             public void run() {
                 // Poner en 0,0 todos los valores de todas las referencias de la tabla_paginas
+                ram.reiniciarBits();
+                try {
+                    // Simulación del tiempo de procesamiento
+                    Thread.sleep(2);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             }
         });
 

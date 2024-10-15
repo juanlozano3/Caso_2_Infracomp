@@ -1,4 +1,5 @@
 import java.util.HashMap;
+import java.util.ArrayList;
 
 public class RAM {
 
@@ -37,12 +38,23 @@ public class RAM {
      }
 
      public void actualizarBit(String bit, int[] clave) {
-          if (bit == "R") this.tabla_paginas.get(clave)[0] = 1;
-          else this.tabla_paginas.get(clave)[1] = 1;
+          if (bit == "R")
+               this.tabla_paginas.get(clave)[0] = 1;
+          else
+               this.tabla_paginas.get(clave)[1] = 1;
      }
 
      public void cargarClave(int[] clave) {
           this.tabla_paginas.put(clave, new int[] { 0, 0 });
      }
 
+     public void reiniciarBits() {
+          for (Pagina pagina : marcos) {
+               ArrayList<int[]> claves = pagina.getDirecciones();
+               for(int[] clave : claves) {
+                    tabla_paginas.get(clave)[0] = 0;
+                    tabla_paginas.get(clave)[1] = 0;
+               }
+          }
+     }
 }
