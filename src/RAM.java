@@ -33,13 +33,13 @@ public class RAM {
           int puntajeLRU = Integer.MAX_VALUE;
           for (Pagina pagina : marcos) {
                int puntaje = pagina.getPuntaje(tabla_paginas);
-               System.out.println("El puntaje de: " + pagina.getId() + " es: " + puntaje);
+               //System.out.println("El puntaje de: " + pagina.getId() + " es: " + puntaje);
                if (puntaje < puntajeLRU) {
                     puntajeLRU = puntaje;
                     idLRU = pagina.getId();
                }
           }
-          System.out.println("A REMOVER: " + idLRU + " Por Puntaje: " + puntajeLRU);
+          //System.out.println("A REMOVER: " + idLRU + " Por Puntaje: " + puntajeLRU);
           return idLRU;
      }
 
@@ -80,7 +80,7 @@ public class RAM {
           valor.add("0");
           valor.add("0");
           this.tabla_paginas.put(clave, valor);
-          System.out.println("CLAVE PUESTA:" + clave + " - " + tabla_paginas.get(clave));
+          //System.out.println("CLAVE PUESTA:" + clave + " - " + tabla_paginas.get(clave));
      }
 
      public void reiniciarBits() {
