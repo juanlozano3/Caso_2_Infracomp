@@ -2,45 +2,49 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Pagina {
-     private int id;
-     private ArrayList<int[]> direcciones;
+     private String id;
+     private ArrayList<String> direcciones;
 
-     public Pagina(int[] clave) {
-          this.id = clave[0];
+     public Pagina(String clave) {
+          this.direcciones = new ArrayList<>();
+          String[] partes = clave.split(" ");
+          this.id = partes[0];
           this.direcciones.add(clave);
      }
 
-     public int getPuntaje(HashMap<int[], int[]> tabla_paginas) {
+     public int getPuntaje(HashMap<String, ArrayList<String>> tabla_paginas) {
           int puntaje = 0;
-          for (int[] direccion : direcciones) {
-               int[] valor_R_M = tabla_paginas.get(direccion);
-               if (valor_R_M[0] == 0 && valor_R_M[1] == 1)
-                    puntaje++;
-               else if (valor_R_M[0] == 1 && valor_R_M[1] == 0)
-                    puntaje += 2;
-               else if (valor_R_M[0] == 1 && valor_R_M[1] == 1)
-                    puntaje += 3;
+          for (String direccion : direcciones) {
+              ArrayList<String> valores_R_M = tabla_paginas.get(direccion);
+              if (valores_R_M != null) {  // Asegúrate de que valores_R_M no sea null
+                  if (valores_R_M.get(0).equals("0") && valores_R_M.get(1).equals("1")) {
+                      puntaje++;
+                  } else if (valores_R_M.get(0).equals("1") && valores_R_M.get(1).equals("0")) {
+                      puntaje += 2;
+                  } else if (valores_R_M.get(0).equals("1") && valores_R_M.get(1).equals("1")) {
+                      puntaje += 3;
+                  }
+              } else {
+                  System.err.println("Error: valores_R_M es null para la dirección " + direccion);
+              }
           }
           return puntaje;
-     }
+      }
+      
 
-     public void addDireccion(int[] clave) {
+     public void addDireccion(String clave) {
           direcciones.add(clave);
      }
 
-     public int getId() {
+     public String getId() {
           return id;
      }
 
-     public void setId(int id) {
-          this.id = id;
-     }
-
-     public ArrayList<int[]> getDirecciones() {
+     public ArrayList<String> getDirecciones() {
           return direcciones;
      }
 
-     public void setDirecciones(ArrayList<int[]> direcciones) {
+     public void setDirecciones(ArrayList<String> direcciones) {
           this.direcciones = direcciones;
      }
 
