@@ -28,6 +28,8 @@ public class Referencias {
           this.NR = 16 + (17 * lenMensaje);
           this.NP = (int) Math.ceil(((NF * NC * 3) + lenMensaje) / P);
           this.imagen = imagen;
+          System.out.println("Largo del mensaje: ");
+          System.out.println(lenMensaje);
      }
 
      public void generarReferencias() throws IOException {
